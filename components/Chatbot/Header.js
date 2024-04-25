@@ -4,21 +4,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
-const Header = ({onClose,reset,themeData, storedIcon }) => {
+const Header = ({onClose,reset,themeData, storedIcon, botName }) => {
 const {bot_name,bot_picture} = themeData?.results || {};
 
-  
+  console.log(botName, 'bot')
   return (
     <div className="chatbot-header">
       <div className="botDetails">
         <Avatar
           alt="BotAvatar"
-          src={storedIcon|| bot_picture}
+          src={storedIcon || bot_picture}
           sx={{ width: 35, height: 35 }}
         />
         <div className="botName">
           <Typography variant="body1" component="span">
-            {bot_name}
+            {botName}
           </Typography>
         </div>
       </div>

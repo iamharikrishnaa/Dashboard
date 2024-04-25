@@ -7,7 +7,7 @@ const apiRequest = async (endpoint, method, body, headers) => {
         method,
         headers: {
           'Content-Type': 'application/json',
-          ...headers, // Merge additional headers
+          'Authorization': headers.Authorization
         },
       };
   
@@ -51,7 +51,6 @@ export const postRequest = async (endpoint, body, token) => {
           };
     }
     return await apiRequest(endpoint, 'POST', body, headers);
-    console.log(apiRequest,'data')
 };
 
 export const getRequest = async (endpoint, token) => {
@@ -64,8 +63,14 @@ export const getRequest = async (endpoint, token) => {
     return await apiRequest(endpoint, 'GET', null, headers);
 };
 
-export const patchRequest = async (endpoint, body) => {
-    return await apiRequest(endpoint, 'PATCH', body, {});
+export const patchRequest = async (endpoint, body,token,chatbot_id) => {
+  let headers = {}
+    if (token) {
+        headers = {
+            Authorization: `Token ${token}`,
+          };
+    }
+    return await apiRequest(`${endpoint}${chatbot_id}/`, 'PATCH', body, headers, chatbot_id);
 };
 
 export const deleteRequest = async (endpoint) => {

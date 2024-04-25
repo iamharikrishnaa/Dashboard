@@ -13,6 +13,7 @@ const Index = () => {
     const [selectedItem, setSelectedItem] = useState('chatbot');
     const [isChatbotWindowOpen, setIsChatbotWindowOpen] = useState(true);
     const [isImagesChanged, setIsImagesChanged] = useState(false);
+    
 
 
     const handleItemClick = (itemNumber) => {
@@ -33,7 +34,7 @@ const Index = () => {
 
                             </div>
                             {selectedItem=='chatbot' && (
-                                <Chatbot setIsImagesChanged={setIsImagesChanged} />
+                                <Chatbot setIsImagesChanged={setIsImagesChanged}/>
                             )}
                             {selectedItem=='history' && (
                                 <HistoryTable />
@@ -42,7 +43,7 @@ const Index = () => {
                         <div className="col-lg-4 col-sm-6 col-md-6">
                         <div className="widget">
                             <div className="widget-button">
-                                <FloatingButton user_id={'userId'} isImagesChanged={isImagesChanged} setIsImagesChanged={setIsImagesChanged} />
+                                <FloatingButton id={'chatbot_id'} isImagesChanged={isImagesChanged} setIsImagesChanged={setIsImagesChanged} />
                             </div>
                         </div>
                             {/* <ChatbotWindow isChatbotWindowOpen={isChatbotWindowOpen} setIsChatbotWindowOpen ={setIsChatbotWindowOpen } /> */}

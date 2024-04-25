@@ -9,7 +9,6 @@ const Website = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleSubmit = () => {
-    console.log("Submitted links:", links);
     setUploadPercentage(0);
     setIsUploading(true);
   };

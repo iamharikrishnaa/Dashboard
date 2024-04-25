@@ -1,49 +1,68 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChromePicker } from 'react-color';
+import { ChromePicker, SketchPicker } from 'react-color';
 
 const ColorPicker = ({ initialColor, labelText, onColorChange }) => {
-  const [showPicker, setShowPicker] = useState(false); // State to manage color picker visibility
-  const pickerRef = useRef(null); // Reference to the color picker element
+  const [showPicker, setShowPicker] = useState(false);
+  const [colorSelected, setColorSelected] = useState(false);
+  const pickerContainerRef = useRef(null);
 
-  // Function to handle opening/closing color picker
   const togglePicker = () => {
     setShowPicker(!showPicker);
   };
 
-  // Function to close color picker when click event occurs outside color picker
+  const handleColorChange = (color) => {
+    onColorChange(color);
+    setColorSelected(true);
+  };
+
   const handleClickOutside = (event) => {
-    if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+    if (
+      pickerContainerRef.current &&
+      !pickerContainerRef.current.contains(event.target)
+    ) {
       setShowPicker(false);
+      setColorSelected(false); // Reset colorSelected state when clicking outside
     }
   };
 
-  // Add event listener for click events outside color picker
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+    const handleMouseDown = (event) => {
+      handleClickOutside(event);
     };
-  }, []);
+
+    // Add event listener for mousedown on document
+    document.addEventListener('mousedown', handleMouseDown);
+
+    return () => {
+      // Clean up by removing the event listener when the component unmounts
+      document.removeEventListener('mousedown', handleMouseDown);
+    };
+  }, []); // No dependencies, so it runs only once on mount
+
+  useEffect(() => {
+    // If a color is selected, close the picker after a delay
+    if (colorSelected) {
+      const timeoutId = setTimeout(() => {
+        setShowPicker(false);
+      }, 200);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [colorSelected]);
 
   return (
     <div className="color-picker">
-      {/* Container for the current color and label */}
       <div className="color-label-container">
-        {/* Display current color */}
         <div className="current-color" style={{ backgroundColor: initialColor }} onClick={togglePicker}></div>
-
-        {/* Label */}
         <span><b>{labelText}</b></span>
       </div>
 
-      {/* Color picker */}
       {showPicker && (
-        <div ref={pickerRef} className="color-picker-wrapper">
-          <ChromePicker color={initialColor} onChange={onColorChange} />
+        <div ref={pickerContainerRef} className="color-picker-wrapper">
+          <SketchPicker color={initialColor} onChange={handleColorChange} />
         </div>
       )}
     </div>
   );
-}
+};
 
 export default ColorPicker;

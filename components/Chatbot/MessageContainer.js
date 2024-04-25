@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import Typography from "@mui/material/Typography";
 
-const MessageContainer = ({ queries, responses, themeData }) => {
+const MessageContainer = ({ queries, responses, themeData, chatBotColor, chatUserColor }) => {
   const { bot_chat_color, user_chat_color } = themeData?.results || {};
+  console.log(themeData,'data');
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -21,7 +22,7 @@ const MessageContainer = ({ queries, responses, themeData }) => {
       {queries.map((query, index) => (
         <div key={`query-${index}`}>
           <div className="bot-query">
-            <div className="query" style={{ backgroundColor: user_chat_color }}>
+            <div className="query" style={{ backgroundColor: chatUserColor }}>
               <Typography variant="body1" component="span" className="botmsg">
                 {query}
               </Typography>
@@ -31,7 +32,7 @@ const MessageContainer = ({ queries, responses, themeData }) => {
             <div className="bot-response">
               <div
                 className="response"
-                style={{ backgroundColor: bot_chat_color }}
+                style={{ backgroundColor: chatBotColor }}
               >
                 <Typography variant="body1" component="span">
                   {responses[index]?.text}

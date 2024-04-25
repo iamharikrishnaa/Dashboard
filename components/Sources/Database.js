@@ -22,7 +22,6 @@ const Database = () => {
   // Function to handle form submission
   const handleSubmit = () => {
     // Implement your submit logic here
-    console.log("Submitted files:", files);
   };
 
   return (

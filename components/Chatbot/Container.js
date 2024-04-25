@@ -40,9 +40,39 @@ const Responses = [
        
 
 const Container = ({ isOpen, onClose,themeData, storedIcon }) => {
+  console.log(themeData,'theeme')
   const [queries, setQueries] = useState([]);
   const [responses, setResponses] = useState(Responses);
-  
+  const [chatBotColor, setChatBotColor] = useState('');
+  const [chatUserColor, setChatUserColor] = useState('');
+  const [botName, setBotName] = useState('');
+
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const botColor = localStorage.getItem('chatbotColor');
+    if (botColor) {
+      setChatBotColor(botColor);
+    }
+  }
+}, [typeof window !== 'undefined' && localStorage.getItem('chatbotColor')]);
+
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const userColor = localStorage.getItem('chatuserColor');
+    if (userColor) {
+      setChatUserColor(userColor);
+    }
+  }
+}, [typeof window !== 'undefined' && localStorage.getItem('chatuserColor')]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+    const botData = localStorage.getItem('current_chatbot');
+    if(botData) {
+      setBotName(JSON.parse(botData)?.bot_name);
+    }
+    }
+  }, [typeof window !== 'undefined' && localStorage.getItem('botData')])
 
   //Function to add a new query
   const addQueryAndResponse = (query, response) => {
@@ -73,11 +103,13 @@ const Container = ({ isOpen, onClose,themeData, storedIcon }) => {
     <div>
       {isOpen && (
         <Card variant="outlined" className="card" sx={{ borderRadius: 2 }}>
-          <Header onClose={onClose} reset={Reset} themeData={themeData} storedIcon={storedIcon} />
+          <Header onClose={onClose} reset={Reset} themeData={themeData} storedIcon={storedIcon} botName={botName} />
           <MessageContainer
             queries={queries}
             responses={responses}
             themeData={themeData}
+            chatUserColor={chatUserColor}
+            chatBotColor={chatBotColor}
           />
           <Footer onSubmit={addQueryAndResponse} themeData={themeData} />
         </Card>

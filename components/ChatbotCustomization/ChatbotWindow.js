@@ -13,7 +13,7 @@ const ChatbotWindow = ({ isChatbotWindowOpen, setIsChatbotWindowOpen  }) => {
     border: 'none'}}>
 
       
-        {isChatbotWindowOpen ? <ChatbotPopup onClose={() => setIsChatbotWindowOpen(false)} /> : <MinimizedChatbot onOpen={() => setIsChatbotWindowOpen(true)} />}
+        {isChatbotWindowOpen ? <ChatbotPopup onClose={() => setIsChatbotWindowOpen(false)} /> : <MinimizedChatbot onOpen={(e) => setIsChatbotWindowOpen(e)} />}
         </div></>
     );
   };

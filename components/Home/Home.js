@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import router from 'next/router';
+import router from "next/router";
 import { postRequest, getRequest } from "../../utils/api";
 import ChatbotItem from "./ChatbotItem";
 
@@ -8,41 +8,31 @@ const Home = ({ token }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-//creating chatbot
-  const createChatbot = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      if (token) {
-        const response = await postRequest("/v1/chatbots",{}, token);
-        console.log('data',response)
-        if (response.status === "success") {
-          setData(response.results);
-           router.push('/sources')
-        } else {
-          setError("Error fetching chatbots");
-        }
-      }
-    } catch (error) {
-      setError("Error fetching chatbots");
+  // Creating a new chatbot
+const createNewChatbot = async () => {
+  try {
+    const response = await postRequest("/v1/chatbots/", {}, token);
+    if (response.status === 'success'){
+      localStorage.setItem('current_chatbot', JSON.stringify(response.results));
+      router.push('/sources')
     }
-    setIsLoading(false);
-  };
+    
+  } catch (error) {
+    console.error('Error creating new chatbot:', error);
+  }
+}
+
 
   //chatbot list after login
   useEffect(() => {
     const fetchChatbots = async () => {
       setIsLoading(true);
       setError(null);
-
       try {
         if (token) {
           const response = await getRequest("/v1/chatbots", token);
-
           if (response.status === "success") {
             setData(response.results);
-
           } else {
             setError("Error fetching chatbots");
           }
@@ -66,7 +56,7 @@ const Home = ({ token }) => {
         Welcome to our chatbot, your virtual assistant ready to help, inform,
         and engage with you on various topics!
       </p>
-      <button onClick={createChatbot} className="create-button">
+      <button onClick={createNewChatbot} className="create-button">
         Create New Chatbot
       </button>
 

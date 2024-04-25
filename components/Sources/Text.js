@@ -9,7 +9,6 @@ const Text = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleSubmit = () => {
-    console.log("Submitted text:", text);
     setUploadPercentage(0);
     setIsUploading(true);
   };

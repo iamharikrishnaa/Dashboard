@@ -8,7 +8,7 @@ import Database from '../components/Sources/Database';
 
 const Index = () => {
     const [selectedItem, setSelectedItem] = useState('files');
-
+    
     const handleItemClick = (itemNumber) => {
         setSelectedItem(itemNumber);
     }
